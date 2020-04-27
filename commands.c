@@ -453,7 +453,7 @@ int line;
 	* printer control characters.
 	*/
 	for (i = 0; (c = getc(fp)) != EOF && i < 10; ++i)
-		if (!isprint(c) && c != '\n' && c != '\t' ) {
+		if (!isprint(c) && c != '\n' && c != '\t' && c != ' ') {
 			sprintf(text, "%s is not a text file", file);
 			s_savemsg(text, 0);
 			fclose(fp);

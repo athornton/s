@@ -263,7 +263,7 @@ int end_line, end_pos;
 				cur_pos = 0;
 				break;
 			default:
-				if (!isprint(c) && c != '\t') {
+				if (!isprint(c) && c != '\t' && c != ' ') {
 					/* unprintable character */
 					UNKNOWN;
 					continue;

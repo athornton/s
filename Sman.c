@@ -74,13 +74,13 @@
 *	scr_cls()					.. file screen.c
 *		Remove all characters from the screen.
 *	
-*	scr_delc(i)					.. file screen.c
+*	scrdelc(i)					.. file screen.c
 *	int i;
 *		Delete i characters.  All characters that follow on the same
 *		row are shifted left i positions and i blank characters are
 *		placed at the right end of the row.
 *		
-*	scr_delr()					.. file screen.c
+*	scrdelr()					.. file screen.c
 *		Delete the row under the cursor.  Later rows on the screen are
 *		shifted up, and a blank row is placed at the bottom of the
 *		screen.
@@ -187,7 +187,7 @@ char *msg;
 				return(reply);
 			} else
 				s -= 2;
-		else if (!isprint(*s) && *s != '\t') {
+		else if (!isprint(*s) && *s != '\t' && *s != ' ') {
 			UNKNOWN;
 			--s;
 			continue;
@@ -428,7 +428,7 @@ char *arg;
 
 	save = arg[maxlen];
 	arg[maxlen] = '\0';
-	fcn(arg);
+	(*fcn)(arg);
 	arg[maxlen] = save;
 }
 
@@ -452,7 +452,7 @@ int from, to;
 		id[nrows] = CLEAR;
 		strcpy(text[nrows], "");
 		scr_move(nrows, 1);
-		scr_delr();
+		scrdelr();
 	}
 
 	/* remember the rows that are shifted up */
@@ -468,7 +468,7 @@ int from, to;
 	/* delete rows from the screen */
 	scr_move(from, 1);
 	while (nbr_rows-- > 0)
-		scr_delr();
+		scrdelr();
 }
 
 /* display - display a line */
@@ -738,7 +738,7 @@ char	*new_text;	/* text of the new line */
 		while (seg < repl_segs) {
 			/* don't delete past the segment's end */
 			count = min(d_count, ncols - col + 1);
-			scr_delc(count);
+			scrdelc(count);
 			/* if there are later segments in old text ... */
 			if (seg < old_segs - 1) {
 				/* append characters from the next segment */

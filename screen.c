@@ -11,13 +11,13 @@
 *	scr_cls()
 *		Clear all characters from the screen.
 *	
-*	scr_delc(i)
+*	scrdelc(i)
 *	int i;
 *		Delete i characters.  Characters that follow on the same row are
 *		shifted left i positions and i blank characters are placed at
 *		the right end of the row.
 *		
-*	scr_delr()
+*	scrdelr()
 *		Delete the row under the cursor.  Later screen rows are shifted
 *		up and a blank row is placed at the bottom of the screen.
 *
@@ -94,8 +94,8 @@ scr_cls()
 	wait(LONG_COUNT);
 }
 
-/* scr_delc - delete characters */
-scr_delc(i)
+/* scrdelc - delete characters */
+scrdelc(i)
 int i;
 {
 	while (i-- > 0) {
@@ -106,8 +106,8 @@ int i;
 		save = '\0';
 }
 
-/* scr_delr - delete the current row */
-scr_delr()
+/* scrdelr - delete the current row */
+scrdelr()
 {
 	SCREEN(DELETE_ROW);
 }
@@ -178,7 +178,7 @@ char *s;
 	char buf[NCOL+1], *t;
 
 	for (t = s; *t != '\0'; ++t)
-		if (!isprint(*t)) {
+		if (!isprint(*t) && *t != ' ') {
 			if (++bad_bytes < 5)
 				errmsg("scr_puts(): replacing byte with value %d by '#'",
 				  (int)*t);
